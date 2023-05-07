@@ -6,6 +6,8 @@ import UpdateProfile from "./components/UpdateProfile";
 import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import Dashboard from "./components/Dashboard";
+import AuthProvider from "./context/AuthContext";
+import RequiredAuth from "./context/RequireAuth.js";
 import "./App.css";
 
 function App() {
@@ -16,13 +18,22 @@ function App() {
     >
       <div className="w-100" style={{ maxWidth: "400px" }}>
         <Router>
-          <Routes>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/update-profile" element={<UpdateProfile />} />
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <RequiredAuth>
+                    <Dashboard />
+                  </RequiredAuth>
+                }
+              />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/update-profile" element={<UpdateProfile />} />
+            </Routes>
+          </AuthProvider>
         </Router>
       </div>
     </Container>
